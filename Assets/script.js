@@ -1,11 +1,15 @@
 var homepage = document.getElementById("homepage")
 var quizpage = document.getElementById("quiz")
 var endpage = document.getElementById("end")
+var highscores = document.getElementById("highscores-table")
+var highscoresLink = document.getElementById("highscore")
 var startButton = document.getElementById("start")
 var scoreDisplay = document.getElementById("score-display")
 var timerElement = document.getElementById("timer-count")
+var goBackLink = document.getElementById("go-back")
 var score = 0;
 var timer;
+var gameStage = "homepage"
 var questions = [
     {
         question: "What is JavaScript primarily used for in web development?",
@@ -35,8 +39,11 @@ endpage.querySelector("form").addEventListener('submit', (e)=>{
     
     submitScore(e.target.querySelector('input').value)
 })
+highscoresLink.addEventListener("click", showHighScoresPage)
+goBackLink.addEventListener("click", goBack)
 
 function startGame() {
+    gameStage="quizpage"
     startTimer();
     displayQuestion();
     hideInstructions();
@@ -45,8 +52,33 @@ function startGame() {
 }
 function hideInstructions() {
     homepage.classList.add("invisible");
+    highscores.classList.add("invisible")
     quizpage.classList.remove("invisible");
 
+}
+
+function showHighScoresPage(){
+    homepage.classList.add("invisible")
+    quizpage.classList.add("invisible")
+    endpage.classList.add("invisible")
+
+    highscores.classList.remove("invisible")
+    highscoresLink.classList.add("invisible")
+    goBackLink.classList.remove("invisible")
+}
+
+function goBack(){
+    highscores.classList.add("invisible")
+    highscoresLink.classList.remove("invisible")
+    goBackLink.classList.add("invisible")
+
+    if (gameStage==='homepage'){
+        homepage.classList.remove("invisible")
+    } else if (gameStage === 'quizpage'){
+        quizpage.classList.remove("invisible")
+    } else if (gameStage === 'endpage'){
+        endpage.classList.remove("invisible")
+    }
 }
 
 function startTimer() {
@@ -118,9 +150,11 @@ function checkAnswer(e) {
 
 }
 function endGame() {
+    gameStage="endpage"
     clearInterval(timer)
     endpage.classList.remove("invisible")
     quizpage.classList.add("invisible")
+    highscores.classList.add("invisible")
 }
 
 function submitScore(initials){
@@ -136,4 +170,13 @@ function submitScore(initials){
     } else {
         localStorage.setItem("scoresArray", JSON.stringify([{initials, score}]))
     }
+}
+
+function showHighScores(){
+    // homepage, quizpage, endpage
+    homepage.classList.add("invisible")
+    quizpage.classList.add("invisible")
+    endpage.classList.add("invisible")
+
+    highscores.classList.remove("invisible")
 }
