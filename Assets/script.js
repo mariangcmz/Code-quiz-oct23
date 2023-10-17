@@ -5,12 +5,17 @@ var questions = [
     {
         question: "What is JavaScript primarily used for in web development?",
         choices: ["Styling web pages", "Creating web layouts", "Adding interactivity to web pages", "Managing databases"],
-        answer: ["Adding interactivity to web pages"]
+        answer: 2
     },
     {
-        question: "?",
+        question: "question 2?",
         choices: [2, 3, 4, 5],
-        answer: 4
+        answer: 3
+    },
+    {
+        question: "question 3?",
+        choices: [2, 3, 4, 5],
+        answer: 1
     }
 ];
 
@@ -24,7 +29,7 @@ startButton.addEventListener("click", startGame);
 
 function startGame() {
     startTimer();
-    //displayQuestion();
+    displayQuestion();
     hideInstructions();
 
 
@@ -61,26 +66,25 @@ function startTimer() {
     }, 1000);
 }
 
-/* function displayQuestion() {
+function displayQuestion() {
     var questionHeader = document.getElementById('question');
     questionHeader.innerText = questions[currentQuestion].question;
 
     var choicesSection = document.getElementById('choices');
     var questionChoices = questions[currentQuestion].choices;
-    for(var i = 0; i < questionChoices.length; i++) {
+    for (var i = 0; i < questionChoices.length; i++) {
         var choiceButton = document.createElement('button');
         choiceButton.innerText = questionChoices[i];
-        choicesSection.appendChild(document.body.createElement(choiceButton));
+        choiceButton.dataset.choiceIndex = i;
+        choicesSection.appendChild(choiceButton);
         choiceButton.addEventListener("click", checkAnswer)
-        
-        // add event listener to choices buttons
-
     }
 
-} */
+}
 
-function checkAnswer(event) {
-    var correctAnswer = questions[currentQuestion].answer;
+function checkAnswer(e) {
+    console.log('check answer', e.target.dataset.choiceIndex)
+    /* var correctAnswer = questions[currentQuestion].answer;
     var userAnswer = event.target.innerText;
 
     console.log(userAnswer);
@@ -89,5 +93,5 @@ function checkAnswer(event) {
         console.log("Correct!")
     } else {
         console.log("incorrect!");
-    }
+    } */
 }
