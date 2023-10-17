@@ -30,7 +30,11 @@ var isWin = false;
 var loseGame
 
 startButton.addEventListener("click", startGame);
-
+endpage.querySelector("form").addEventListener('submit', (e)=>{
+    e.preventDefault();
+    
+    submitScore(e.target.querySelector('input').value)
+})
 
 function startGame() {
     startTimer();
@@ -117,4 +121,19 @@ function endGame() {
     clearInterval(timer)
     endpage.classList.remove("invisible")
     quizpage.classList.add("invisible")
+}
+
+function submitScore(initials){
+    console.log(initials, score)
+
+    if (localStorage.getItem("scoresArray")){
+        // read the existing scores
+        var scoresArray = JSON.parse(localStorage.getItem("scoresArray"))
+        // push our new score onto the array
+        scoresArray.push({initials,score})
+        // put the array back in local storage
+        localStorage.setItem("scoresArray", JSON.stringify(scoresArray))
+    } else {
+        localStorage.setItem("scoresArray", JSON.stringify([{initials, score}]))
+    }
 }
