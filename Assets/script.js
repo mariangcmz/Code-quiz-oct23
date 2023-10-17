@@ -1,6 +1,11 @@
 var homepage = document.getElementById("homepage")
 var quizpage = document.getElementById("quiz")
+var endpage = document.getElementById("end")
 var startButton = document.getElementById("start")
+var scoreDisplay = document.getElementById("score-display")
+var timerElement = document.getElementById("timer-count")
+var score = 0;
+var timer;
 var questions = [
     {
         question: "What is JavaScript primarily used for in web development?",
@@ -20,7 +25,7 @@ var questions = [
 ];
 
 var currentQuestion = 0;
-var timerCount = 5;
+var timerCount = 10;
 var isWin = false;
 var loseGame
 
@@ -31,7 +36,7 @@ function startGame() {
     startTimer();
     displayQuestion();
     hideInstructions();
-
+    scoreDisplay.textContent = "Score: " + score
 
 }
 function hideInstructions() {
@@ -41,27 +46,23 @@ function hideInstructions() {
 }
 
 function startTimer() {
-    var timerElement = document.createElement("div");
-    timerElement.textContent = JSON.stringify(timerCount) + " seconds remaining";
+    timerElement.textContent = timerCount + " seconds remaining";
     document.body.appendChild(timerElement);
 
     // Sets timer
     timer = setInterval(function () {
         timerCount--;
-        timerElement.textContent = timerCount;
+        timerElement.textContent = timerCount + " seconds remaining";
         if (timerCount >= 0) {
             // Tests if win condition is met
             if (isWin && timerCount > 0) {
-                // Clears interval and stops timer
-                clearInterval(timer);
                 winGame();
             }
         }
         // Tests if time has run out
         if (timerCount === 0) {
-            // Clears interval
-            clearInterval(timer);
-            loseGame();
+
+            endGame();
         }
     }, 1000);
 }
@@ -72,6 +73,7 @@ function displayQuestion() {
 
     var choicesSection = document.getElementById('choices');
     var questionChoices = questions[currentQuestion].choices;
+    choicesSection.innerHTML = ("")
     for (var i = 0; i < questionChoices.length; i++) {
         var choiceButton = document.createElement('button');
         choiceButton.innerText = questionChoices[i];
@@ -84,14 +86,35 @@ function displayQuestion() {
 
 function checkAnswer(e) {
     console.log('check answer', e.target.dataset.choiceIndex)
-    /* var correctAnswer = questions[currentQuestion].answer;
-    var userAnswer = event.target.innerText;
+    var correctAnswer = questions[currentQuestion].answer;
+    var userAnswer = e.target.dataset.choiceIndex;
 
     console.log(userAnswer);
 
     if (userAnswer == correctAnswer) {
         console.log("Correct!")
+        score++
+        scoreDisplay.textContent = "Score: " + score
     } else {
         console.log("incorrect!");
-    } */
+        timerCount-=5;
+        timerElement.textContent = timerCount + " seconds remaining";
+        if (timerCount <= 0){
+            timerCount = 0;
+            timerElement.textContent = "0 seconds remaining";
+            endGame()
+        }
+    }
+    if (currentQuestion >= questions.length - 1) endGame()
+    else {
+        currentQuestion++
+        displayQuestion()
+    }
+
+
+}
+function endGame() {
+    clearInterval(timer)
+    endpage.classList.remove("invisible")
+    quizpage.classList.add("invisible")
 }
