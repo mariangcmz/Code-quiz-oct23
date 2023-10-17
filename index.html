@@ -1,12 +1,14 @@
- <!DOCTYPE html>
- <html lang="en">
- <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="stylesheet" type="text/css" href="Assets\style.css"/>
-    <title>JavaScript Quiz</title>
- </head>
- <body>
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+   <meta charset="UTF-8">
+   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="stylesheet" type="text/css" href="Assets\style.css" />
+   <title>JavaScript Quiz</title>
+</head>
+
+<body>
    <header id="highscore">
       <p> View High Scores</p>
    </header>
@@ -15,10 +17,15 @@
       <p>Try to answer the following questons. Press the button to start</p>
       <button id="start">Start</button>
    </section>
-   <section id="quiz">
-      <h4 id="question"></h4>
-         <section id=" options"></section>
+   <section class= "invisible" id="quiz">
+      <h4 id="question">question will be here</h4>
+      <section id=" choices"></section>
    </section>
-  <script src=" Assets\script.js"></script>
- </body>
- </html>
+   <footer id="timer">
+      <div id="timer-count"></div>
+
+   </footer>
+   <script src=" Assets\script.js"></script>
+</body>
+
+</html>
