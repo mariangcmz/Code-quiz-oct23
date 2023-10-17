@@ -28,8 +28,26 @@
          <input type="text" placeholder="Enter your initials"/>
          <button type="submit">Submit</button>
       </form>
+
+      <br />
+      <button id="play-again">Play Again</button>
    </section>
-   <section id="highscores-table" class="invisible">table here</section>
+   <section id="highscores-table" class="invisible">
+      <h2>High Scores</h2>
+      <table>
+         <thead>
+            <tr>
+               <th>Initials</th>
+               <th>Score</th>
+            </tr>
+         </thead>
+         <tbody id="table-body">
+
+         </tbody>
+      </table>
+
+      <button id="clear">Clear history</button>
+   </section>
    <footer id="timer">
       <div id="timer-count"></div>
       <div id="score-display"></div>

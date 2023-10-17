@@ -6,7 +6,10 @@ var highscoresLink = document.getElementById("highscore")
 var startButton = document.getElementById("start")
 var scoreDisplay = document.getElementById("score-display")
 var timerElement = document.getElementById("timer-count")
-var goBackLink = document.getElementById("go-back")
+var goBackLink = document.getElementById("go-back");
+var playAgain = document.getElementById("play-again")
+var tableBody = document.getElementById("table-body")
+var clearBtn = document.getElementById("clear")
 var score = 0;
 var timer;
 var gameStage = "homepage"
@@ -17,14 +20,14 @@ var questions = [
         answer: 2
     },
     {
-        question: "question 2?",
-        choices: [2, 3, 4, 5],
-        answer: 3
+        question: " What keyword is used to define a function in JavaScript?",
+        choices: ["def", "function", "func", "define"],
+        answer: 1
     },
     {
-        question: "question 3?",
-        choices: [2, 3, 4, 5],
-        answer: 1
+        question: "Which of the following is NOT a valid JavaScript data type?",
+        choices: ["Number", "Array", "Character", "Object"],
+        answer: 2
     }
 ];
 
@@ -41,6 +44,13 @@ endpage.querySelector("form").addEventListener('submit', (e)=>{
 })
 highscoresLink.addEventListener("click", showHighScoresPage)
 goBackLink.addEventListener("click", goBack)
+playAgain.addEventListener("click", ()=>{
+    document.location.reload()
+})
+clearBtn.addEventListener("click", ()=>{
+    localStorage.setItem("scoresArray", JSON.stringify([]))
+    showHighScoresPage()
+})
 
 function startGame() {
     gameStage="quizpage"
@@ -61,6 +71,22 @@ function showHighScoresPage(){
     homepage.classList.add("invisible")
     quizpage.classList.add("invisible")
     endpage.classList.add("invisible")
+
+    //populate table
+    const scores = JSON.parse(localStorage.getItem("scoresArray"))
+    scores.sort((a,b) => b.score-a.score)
+   
+    tableBody.innerHTML = ''
+    for (let i = 0; i <scores.length; i++){
+        var row = document.createElement("tr")
+        var initialsCell = document.createElement("td")
+        initialsCell.textContent = scores[i].initials
+        var scoreCell = document.createElement("td")
+        scoreCell.textContent = scores[i].score
+        row.append(initialsCell)
+        row.append(scoreCell)
+       tableBody.append(row)
+    }
 
     highscores.classList.remove("invisible")
     highscoresLink.classList.add("invisible")
@@ -170,13 +196,4 @@ function submitScore(initials){
     } else {
         localStorage.setItem("scoresArray", JSON.stringify([{initials, score}]))
     }
-}
-
-function showHighScores(){
-    // homepage, quizpage, endpage
-    homepage.classList.add("invisible")
-    quizpage.classList.add("invisible")
-    endpage.classList.add("invisible")
-
-    highscores.classList.remove("invisible")
 }
